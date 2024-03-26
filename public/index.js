@@ -1,14 +1,13 @@
 async function main() {
     const apiKey = 'bb179d89af174251ae7a0108a06e2e83'; 
     const symbols = ['GME', 'MSFT', 'DIS', 'BNTX'];
-    const interval = '1day'; // You can adjust the interval as needed
-
+    const interval = '1day'; 
     const timeChartCanvas = document.querySelector('#time-chart');
     const highestPriceChartCanvas = document.querySelector('#highest-price-chart');
     const averagePriceChartCanvas = document.querySelector('#average-price-chart');
 
     try {
-        // Fetch stock data from Twelvedata
+       
         const url = `https://api.twelvedata.com/time_series?symbol=${symbols.join(',')}&interval=${interval}&apikey=${apiKey}`;
         const response = await fetch(url);
         if (!response.ok) {
@@ -16,7 +15,7 @@ async function main() {
         }
         const result = await response.json();
 
-        // Instead of fetching, use the provided mock data for testing
+        
         const mockData = {
             GME: result['GME'],
             MSFT: result['MSFT'],
@@ -26,12 +25,12 @@ async function main() {
 
         const { GME, MSFT, DIS, BNTX } = mockData;
 
-        console.log(mockData); // Log the mock data
+        console.log(mockData); 
 
-        // Process the fetched data
+        
         const stocks = [GME, MSFT, DIS, BNTX];
 
-        // Reverse the order of values for each stock
+        
         stocks.forEach(stock => {
             stock.values.reverse();
         });
@@ -58,7 +57,7 @@ async function main() {
             }
         });
 
-        // Function to find the highest price from an array of stock values
+       
         function findHighestPrice(stock) {
             if (!Array.isArray(stock)) {
                 throw new Error('Stock data is not in the expected format');
@@ -66,28 +65,26 @@ async function main() {
             return Math.max(...stock);
         }
 
-        // Prepare data for the Highest Stock Price chart
+       
         const highestPrices = symbols.map(symbol => findHighestPrice(mockData[symbol]?.values));
 
-        console.log(highestPrices); // Log the highest prices
-
-        // Create the Highest Stock Price chart using Chart.js
+        
         new Chart(highestPriceChartCanvas.getContext('2d'), {
             type: 'bar',
             data: {
-                labels: symbols, // Stock symbols as labels
+                labels: symbols,
                 datasets: [{
                     label: 'Highest Stock Price',
-                    data: highestPrices, // Highest prices as data
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue color for bars
-                    borderColor: 'rgba(54, 162, 235, 1)', // Border color for bars
+                    data: highestPrices, 
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)', 
+                    borderColor: 'rgba(54, 162, 235, 1)', 
                     borderWidth: 1
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true // Start y-axis from zero
+                        beginAtZero: true 
                     }
                 }
             }
